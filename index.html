@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Something's Cooking...</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: white;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .background-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .bubble {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 50%;
+            animation: bubble-rise 8s infinite ease-in-out;
+        }
+
+        @keyframes bubble-rise {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .logo {
+            width: 200px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+            position: relative;
+            animation: pulse 2s infinite;
+            font-family: 'Arial', sans-serif;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+            text-transform: lowercase;
+        }
+
+        .logo::before {
+            content: '';
+            display: none;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes flicker {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+            animation: slide-up 1s ease-out;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            line-height: 1.6;
+            animation: slide-up 1s ease-out 0.2s both;
+        }
+
+        .cooking-animation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 2rem 0;
+            gap: 1rem;
+            animation: slide-up 1s ease-out 0.4s both;
+        }
+
+        .pot {
+            width: 80px;
+            height: 60px;
+            background: linear-gradient(to bottom, #4a4a4a, #2a2a2a);
+            border-radius: 0 0 40px 40px;
+            position: relative;
+            margin: 0 1rem;
+        }
+
+        .pot::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 20px;
+            background: #333;
+            border-radius: 50px;
+        }
+
+        .steam {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50px;
+            animation: steam-rise 1.5s infinite ease-in-out;
+        }
+
+        .steam:nth-child(2) {
+            left: 40%;
+            animation-delay: 0.3s;
+        }
+
+        .steam:nth-child(3) {
+            left: 60%;
+            animation-delay: 0.6s;
+        }
+
+        @keyframes steam-rise {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(0px) scale(1);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px) scale(1.2);
+            }
+        }
+
+        .email-signup {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 100%;
+            animation: slide-up 1s ease-out 0.6s both;
+        }
+
+        .email-signup h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        input[type="email"] {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="email"]:focus {
+            background: white;
+            transform: scale(1.02);
+            box-shadow: 0 0 0 2px #007bff;
+        }
+
+        .notify-btn {
+            padding: 0.8rem 1.5rem;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .notify-btn:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #e9ecef;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes slide-up {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .countdown {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            justify-content: center;
+            animation: slide-up 1s ease-out 0.8s both;
+        }
+
+        .countdown-item {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 15px;
+            padding: 1rem;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .countdown-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .input-group {
+                flex-direction: column;
+            }
+            
+            .countdown {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            
+            .countdown-item {
+                min-width: 60px;
+                padding: 0.8rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation" id="bubbles"></div>
+    
+    <div class="container">
+        <div class="logo">happycircuit</div>
+        
+        <h1>Something's Cooking...</h1>
+        
+        <p class="subtitle">
+            We're crafting something extraordinary behind the scenes. Get ready for an experience that will change everything. The heat is on, and we can't wait to serve it up!
+        </p>
+        
+        <div class="cooking-animation">
+            <div class="pot">
+                <div class="steam"></div>
+                <div class="steam"></div>
+                <div class="steam"></div>
+            </div>
+        </div>
+        
+        <div class="countdown">
+            <div class="countdown-item">
+                <span class="countdown-number" id="days">00</span>
+                <span class="countdown-label">Days</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="hours">00</span>
+                <span class="countdown-label">Hours</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="minutes">00</span>
+                <span class="countdown-label">Minutes</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="seconds">00</span>
+                <span class="countdown-label">Seconds</span>
+            </div>
+        </div>
+        
+        <div class="email-signup">
+            <h3>Be the first to taste what's coming</h3>
+            <div class="input-group">
+                <input type="email" placeholder="Enter your email address" id="emailInput">
+                <button class="notify-btn" onclick="handleSignup()">Notify Me</button>
+            </div>
+            <p style="color: #666; font-size: 0.9rem; margin-top: 1rem;">
+                Join <span id="subscriberCount">2,847</span> others waiting for the big reveal
+            </p>
+        </div>
+        
+        <div class="social-links">
+            <a href="#" class="social-link">📧</a>
+            <a href="#" class="social-link">🐦</a>
+            <a href="#" class="social-link">📘</a>
+            <a href="#" class="social-link">📷</a>
+        </div>
+    </div>
+
+    <script>
+        // Create floating bubbles
+        function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            
+            const size = Math.random() * 60 + 20;
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            bubble.style.left = Math.random() * window.innerWidth + 'px';
+            bubble.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            bubble.style.animationDelay = Math.random() * 2 + 's';
+            
+            document.getElementById('bubbles').appendChild(bubble);
+            
+            setTimeout(() => {
+                bubble.remove();
+            }, 8000);
+        }
+
+        // Create bubbles periodically
+        setInterval(createBubble, 800);
+        
+        // Initial bubbles
+        for (let i = 0; i < 5; i++) {
+            setTimeout(createBubble, i * 200);
+        }
+
+        // Countdown timer (set to 30 days from now)
+        const countdownDate = new Date().getTime() + (30 * 24 * 60 * 60 * 1000);
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+        
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Email signup functionality
+        function handleSignup() {
+            const email = document.getElementById('emailInput').value;
+            if (email && email.includes('@')) {
+                // Simulate signup success
+                document.getElementById('emailInput').style.background = '#4CAF50';
+                document.getElementById('emailInput').value = 'Thanks for signing up!';
+                document.getElementById('emailInput').disabled = true;
+                
+                // Update subscriber count
+                const currentCount = parseInt(document.getElementById('subscriberCount').textContent.replace(',', ''));
+                document.getElementById('subscriberCount').textContent = (currentCount + 1).toLocaleString();
+                
+                // Reset after 3 seconds
+                setTimeout(() => {
+                    document.getElementById('emailInput').style.background = 'rgba(255, 255, 255, 0.9)';
+                    document.getElementById('emailInput').value = '';
+                    document.getElementById('emailInput').disabled = false;
+                    document.getElementById('emailInput').placeholder = 'Enter your email address';
+                }, 3000);
+            } else {
+                document.getElementById('emailInput').style.background = '#ff6b6b';
+                setTimeout(() => {
+                    document.getElementById('emailInput').style.background = 'rgba(255, 255, 255, 0.9)';
+                }, 1000);
+            }
+        }
+
+        // Add enter key support for email input
+        document.getElementById('emailInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleSignup();
+            }
+        });
+
+        // Add some interactive elements
+        document.querySelector('.logo').addEventListener('click', function() {
+            this.style.animation = 'none';
+            setTimeout(() => {
+                this.style.animation = 'pulse 2s infinite';
+            }, 10);
+        });
+    </script>
+</body>
+</html>
